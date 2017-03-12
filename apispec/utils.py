@@ -58,10 +58,13 @@ def load_yaml_from_docstring(docstring):
     else:
         return None
 
+    description = "\n".join(split_lines[:cut_from])
     yaml_string = "\n".join(split_lines[cut_from:])
     yaml_string = dedent(yaml_string)
     try:
-        return yaml.load(yaml_string)
+        loaded_yaml = yaml.load(yaml_string)
+        loaded_yaml['description'] = description
+        return loaded_yaml
     except yaml.YAMLError:
         return None
 
